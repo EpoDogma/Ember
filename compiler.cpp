@@ -1,9 +1,9 @@
 #include <iostream>
 #include <fstream>
 
-bool isSyntaxValid(int&, char*&);
+bool isSyntaxValid(int&, char* argv[]);
 
-int main(int argc, char* argv) {
+int main(int argc, char* argv[]) {
     // Confirm executable syntax is being followed : ./compiler [program.em]
     if (!isSyntaxValid(argc, argv)) {
         return EXIT_FAILURE;
@@ -24,8 +24,7 @@ int main(int argc, char* argv) {
     return EXIT_SUCCESS;
 }
 
-
-bool isSyntaxValid(int& argc, char*& argv) {
+bool isSyntaxValid(int& argc, char* argv[]) {
     if (argc == 2) {
         return true;
     }
@@ -33,3 +32,6 @@ bool isSyntaxValid(int& argc, char*& argv) {
     std::cout << "Invalid usage. Please follow the syntax: ./compiler [program.em]" << std::endl;
     return false;
 }
+
+
+
