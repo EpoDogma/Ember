@@ -10,7 +10,13 @@ int main(int argc, char* argv[]) {
     }
 
     // Pull program.em file stream (FS)
+    std::ifstream inFS(argv[1]);
+    std::string inS;
 
+    inFS.seekg(0, std::ios::end);
+    inS.resize(inFS.tellg());
+    inFS.seekg(0, std::ios::beg);
+    inFS.read(&inS[0], inS.size());
 
     // Tokenize FS
 
