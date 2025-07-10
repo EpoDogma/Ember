@@ -1,14 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-bool isSyntaxValid(int& argc, char*& argv) {
-    if (argc == 2) {
-        return true;
-    }
-
-    std::cout << "Invalid usage. Please follow the syntax: ./compiler [program.em]" << std::endl;
-    return false;
-}
+bool isSyntaxValid(int&, char*&);
 
 int main(int argc, char* argv) {
     // Confirm executable syntax is being followed : ./compiler [program.em]
@@ -17,6 +10,7 @@ int main(int argc, char* argv) {
     }
 
     // Pull program.em file stream (FS)
+
 
     // Tokenize FS
 
@@ -28,4 +22,14 @@ int main(int argc, char* argv) {
 
     // NOTE: Currently handling program assembling and linking externally.
     return EXIT_SUCCESS;
+}
+
+
+bool isSyntaxValid(int& argc, char*& argv) {
+    if (argc == 2) {
+        return true;
+    }
+
+    std::cout << "Invalid usage. Please follow the syntax: ./compiler [program.em]" << std::endl;
+    return false;
 }
