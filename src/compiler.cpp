@@ -56,7 +56,6 @@ int main(int argc, char* argv[]) {
     // Tokenize FS
     std::vector< Token > tokens;
     std::string tokenString;
-    Token token;
 
     while(inS.length() > 0) {
         char c = inS.at(0);
