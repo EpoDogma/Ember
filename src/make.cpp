@@ -1,6 +1,7 @@
 #include <iostream>
-#include <cstdlib>
-#include <filesystem>
+#include <cstdlib> // system()
+#include <filesystem> // last_write_time()
+#include <unistd.h> // execvp()
 
 /*
 The purpose of this file is to act as a makefile with basic functionality. It will automatically see if the make.cpp 
@@ -19,8 +20,15 @@ int main(int argc, char* argv[]) {
 
     // If make.cpp has been altered since compilation of make executable
     if (std::filesystem::last_write_time("./src/make.cpp") > std::filesystem::last_write_time("make")) {
+        std::cout << "Changes were found in the makefile. Updating and re-executing make binary." << std::endl;
+        
         command = "g++ -o make ./src/make.cpp";
         system(command.c_str());
+
+        // Re-run the new 'make' binary with the same arguments
+        execvp("./make", argv); // replace current process
+        perror("Failed to change executing binary to newly compile make file. Re run this command. Failure reason");
+        return 1;
     }
     
     command = "g++ -o compiler ./src/compiler.cpp";
