@@ -39,18 +39,3 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-
-bool isSyntaxValid(int& argc, char* argv[]) {
-    if (argc != 2) { // Guard Clause: Correct number of arguments.
-        std::cout << "Invalid usage. Please follow the syntax: ./compiler [program.em]" << std::endl;
-        return false;
-    }
-
-    std::string argument(argv[1]);
-    if (argument.find(".em") == std::string::npos) {
-        std::cout << "Invalid usage. Please ensure the program file ends in the .em extension." << std::endl;
-        return false;
-    }
-
-    return true;
-}
