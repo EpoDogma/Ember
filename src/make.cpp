@@ -32,9 +32,9 @@ int main(int argc, char* argv[]) {
     command = "nasm -o ./product/program.o -f elf64 ./product/program.asm";
     system(command.c_str());
 
-    int nameSize = inputFileName.find_last_of(".") - inputFileName.find_last_of("/") - 1;
+    int nameSize = inputFileName.find_last_of(".") - inputFileName.find_last_of("/");
 
-    command = "ld -o " + inputFileName.substr(inputFileName.find_last_of("/") + 1, nameSize) + " ./product/program.o";
+    command = "ld -o " + inputFileName.substr(inputFileName.find_last_of("/") + 1, nameSize - 1) + " ./product/program.o";
     system(command.c_str());
 
     return 0;
