@@ -1,9 +1,0 @@
-It took quite a while, but I think I have figured out a path.
-
-Generically, Source Code is put through a Compiler to create Assembly. It is then put through an Assembler to create an Object File, that is then put through a Linker to create the final executable.
-
-Source Code ---> | Compiler | ----> Assembly
-Assembly ---> | Assembler | ---> Object File
-Object File ---> | Linker | ---> Executable
-
-The current goal for this compiler is to return a basic constant integer. I will first tokenize the input, and directly translate that into Assembly. That will then be Assembled using NASM, and Linked using GNU ld.
