@@ -6,8 +6,24 @@
 enum class TokenType {
     _return,
     semicolon,
-    int_l
+    int_l,
+    o_parenthesis,
+    c_parenthesis,
+    o_brace,
+    c_brace,
+    add,
+    sub,
+    eq
 };
+
+/*
+Open/Close parenthesis (for conditions)
+Open/Close Braces (for bodies)
+Addition
+Subtraction
+Equation (=)
+Basic alphabetical variables
+*/
 
 struct Token {
     private:
