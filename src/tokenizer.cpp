@@ -9,7 +9,7 @@ Tokenizer::Tokenizer(std::string& inS) : inS(inS) {}
 
 // Private methods
 void Tokenizer::tokenizeHelper(char& c, std::string& inS, std::string& tokenString, bool isDigit) {
-    while (!inS.empty() && (isDigit) ? std::isdigit(c) : std::isalpha(c)) {
+    while ( (!inS.empty() ) && ( (isDigit) ? std::isdigit(c) : std::isalpha(c) )) {
         tokenString.push_back(c);
         inS.erase(inS.begin());
         if (!inS.empty()) {
@@ -30,7 +30,11 @@ void Tokenizer::tokenize() {
             if (tokenString == "return") {
                 tokens.push_back({TokenType::_return, tokenString});
             }   else { // NOTE: Is not a keyword (variables or strings)
-                continue; // Not implemented yet.
+                // Not implemented yet
+                std::string error("Invalid token: ");
+                error += tokenString;
+
+                throw TokenException(error.c_str());
             }
         }   else if (std::isdigit(c)) {
             tokenizeHelper(c, inS, tokenString, true);
@@ -41,6 +45,12 @@ void Tokenizer::tokenize() {
             inS.erase(inS.begin());
         }   else if (c == ' ' || c == '\n') {
             inS.erase(inS.begin());
+        }   else {
+            std::string error("The character ");
+            error += c;
+            error += " is not currently accepted by the compiler.";
+
+            throw TokenException(error.c_str());
         }
     }
 }
@@ -55,6 +65,10 @@ void Tokenizer::setInS(std::string& inS) {
 }
 
 std::vector< Token > Tokenizer::getTokens() const {
+    return tokens;
+}
+
+std::vector< Token >& Tokenizer::getTokens() { // reference accessor
     return tokens;
 }
 

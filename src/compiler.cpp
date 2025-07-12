@@ -1,10 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "tokenizer.hpp"
+
+#include "tokenizer.cpp"
 
 bool isSyntaxValid(int&, char*[]);
-void extractStream(std::string&);
+void extractStream(std::string&, const char* name);
 
 int main(int argc, char* argv[]) {
     if (!isSyntaxValid(argc, argv)) {
@@ -17,19 +18,16 @@ int main(int argc, char* argv[]) {
 
     // Tokenize FS
     Tokenizer tkzr(inS);
-    std::vector< Token > tokens;
-
     tkzr.tokenize();
-    tokens = tkzr.getTokens();
+
+    std::vector< Token > tokens(tkzr.getTokens()); // Moving memory directly w/o copying, optimization for huge files.
 
     // Translate into Assembly & Write to file
     std::ofstream oFS("./product/program.asm");
 
     oFS << "global _start\n\nsection .text\n_start:\n";
     
-    for (int i = 0; i < tokens.size(); i++) {
-        const Token& token = tokens.at(i);
-        // NOTE: Only compatible with return number at the moment.
+    for (const Token& token: tokens) {
         if (token.getType() == TokenType::_return) {
             oFS << "    mov rax, 60\n";
         }   else if (token.getType() == TokenType::int_l) {
@@ -41,7 +39,7 @@ int main(int argc, char* argv[]) {
 
     oFS.close();
 
-    // NOTE: Currently handling program assembling and linking externally.
+    // NOTE: Currently handling program assembling and linking externally using make file.
     return EXIT_SUCCESS;
 }
 
@@ -62,6 +60,10 @@ bool isSyntaxValid(int& argc, char* argv[]) {
 
 void extractStream(std::string& inS, const char* name) {
     std::ifstream inFS(name);
+
+    if (inFS.fail()) {
+        throw std::ios_base::failure("Unable to open file " + std::string(name));
+    }
 
     inFS.seekg(0, std::ios::end);
     inS.resize(inFS.tellg());
