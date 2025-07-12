@@ -24,6 +24,7 @@ class Tokenizer {
         std::string inS;
 
         void tokenizeHelper(char& c, std::string& inS, std::string& tokenString, bool isDigit);
+        void tokenizeAlphaHelper(std::string& tokenString);
     public:
         Tokenizer();
         Tokenizer(std::string& inS);

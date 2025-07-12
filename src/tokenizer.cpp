@@ -20,6 +20,18 @@ void Tokenizer::tokenizeHelper(char& c, std::string& inS, std::string& tokenStri
     }
 }
 
+void Tokenizer::tokenizeAlphaHelper(std::string& tokenString) {
+    if (tokenString == "return") {
+        tokens.push_back({TokenType::_return, tokenString});
+    }   else { // NOTE: Is not a keyword (variables or strings)
+        // Not implemented yet
+        std::string error("Invalid token: ");
+        error += tokenString;
+
+        throw TokenException(error.c_str());
+    }
+}
+
 // Public methods
 void Tokenizer::tokenize() {
     while(inS.length() > 0) {
@@ -28,16 +40,7 @@ void Tokenizer::tokenize() {
 
         if (std::isalpha(c)) {
             tokenizeHelper(c, inS, tokenString, false);
-
-            if (tokenString == "return") {
-                tokens.push_back({TokenType::_return, tokenString});
-            }   else { // NOTE: Is not a keyword (variables or strings)
-                // Not implemented yet
-                std::string error("Invalid token: ");
-                error += tokenString;
-
-                throw TokenException(error.c_str());
-            }
+            tokenizeAlphaHelper(tokenString);
         }   else if (std::isdigit(c)) {
             tokenizeHelper(c, inS, tokenString, true);
             tokens.push_back({TokenType::int_l, tokenString});
@@ -51,7 +54,7 @@ void Tokenizer::tokenize() {
             std::string error("The character ");
             error += c;
             error += " is not currently accepted by the compiler.";
-
+            
             throw TokenException(error.c_str());
         }
     }
