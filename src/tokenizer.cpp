@@ -1,11 +1,13 @@
-#include "tokenizer.hpp"
+#include "../include/tokenizer.hpp"
 
 // Constructors
 Tokenizer::Tokenizer() {
     this->inS = "";
 }
 
-Tokenizer::Tokenizer(std::string& inS) : inS(inS) {}
+Tokenizer::Tokenizer(std::string& inS) : inS(inS) {
+    tokenize();
+}
 
 // Private methods
 void Tokenizer::tokenizeHelper(char& c, std::string& inS, std::string& tokenString, bool isDigit) {
@@ -62,6 +64,10 @@ void Tokenizer::tokenize(std::string& inS) {
 
 void Tokenizer::setInS(std::string& inS) {
     this->inS = inS;
+}
+
+std::string Tokenizer::getInS() const {
+    return inS;
 }
 
 std::vector< Token > Tokenizer::getTokens() const {

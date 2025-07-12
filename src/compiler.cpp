@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 
-#include "tokenizer.cpp"
+#include "../include/tokenizer.hpp"
 
 bool isSyntaxValid(int&, char*[]);
 void extractStream(std::string&, const char* name);
@@ -18,8 +18,6 @@ int main(int argc, char* argv[]) {
 
     // Tokenize FS
     Tokenizer tkzr(inS);
-    tkzr.tokenize();
-
     std::vector< Token > tokens(tkzr.getTokens()); // Moving memory directly w/o copying, optimization for huge files.
 
     // Translate into Assembly & Write to file

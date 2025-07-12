@@ -31,6 +31,7 @@ class Tokenizer {
         void tokenize();
         void tokenize(std::string& inS);
         void setInS(std::string& inS);
+        std::string getInS() const;
         std::vector< Token > getTokens() const;
         std::vector< Token >& getTokens();
         std::string toString() const;
