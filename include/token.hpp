@@ -16,15 +16,6 @@ enum class TokenType {
     eq
 };
 
-/*
-Open/Close parenthesis (for conditions)
-Open/Close Braces (for bodies)
-Addition
-Subtraction
-Equation (=)
-Basic alphabetical variables
-*/
-
 struct Token {
     private:
         TokenType type;
