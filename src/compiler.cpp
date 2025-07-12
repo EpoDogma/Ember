@@ -3,7 +3,7 @@
 #include <vector>
 
 enum class TokenType {
-    exit,
+    _return,
     semicolon,
     int_l
 };
@@ -17,11 +17,11 @@ struct Token {
             this->type = type;
             this->data = data;
         };
-        std::string getTypeString() {
+        std::string getTypeString() const {
             std::string result;
 
-            if (type == TokenType::exit) {
-                result = "return";
+            if (type == TokenType::_return) {
+                result = "_return";
             }   else if (type == TokenType::semicolon) {
                 result = "semicolon";
             }   else if (type == TokenType::int_l) {
@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
             extractUntilDiff(c, inS, tokenString, false);
 
             if (tokenString == "return") {
-                tokens.push_back({TokenType::exit, tokenString});
+                tokens.push_back({TokenType::_return, tokenString});
             }   else { // NOTE: Is not a keyword (variables or strings)
                 continue; // Not implemented yet.
             }
@@ -82,25 +82,46 @@ int main(int argc, char* argv[]) {
     }
 
     // Display tokenized FS
-    for (Token token : tokens) {
+    for (const Token token : tokens) {
         std::cout << "[" << token.getTypeString() << ", " << token.data << "]" << std::endl;
     }
 
-    // Translate into Assembly
+    // Translate into Assembly & Write to file
+    std::ofstream oFS("./product/program.asm");
 
-    // Write to file
+    oFS << "global _start\n\nsection .text\n_start:\n";
+    
+    for (int i = 0; i < tokens.size(); i++) {
+        const Token& token = tokens.at(i);
+        // NOTE: Only compatible with return number at the moment.
+        if (token.type == TokenType::_return) {
+            oFS << "    mov rax, 60\n";
+        }   else if (token.type == TokenType::int_l) {
+            oFS << "    mov rdi, " << token.data << "\n";
+        }   else if (token.type == TokenType::semicolon) {
+            oFS << "    syscall";
+        }
+    }
+
+    oFS.close();
 
     // NOTE: Currently handling program assembling and linking externally.
     return EXIT_SUCCESS;
 }
 
 bool isSyntaxValid(int& argc, char* argv[]) {
-    if (argc == 2) {
-        return true;
+    if (argc != 2) { // Guard Clause: Correct number of arguments.
+        std::cout << "Invalid usage. Please follow the syntax: ./compiler [program.em]" << std::endl;
+        return false;
     }
 
-    std::cout << "Invalid usage. Please follow the syntax: ./compiler [program.em]" << std::endl;
-    return false;
+    std::string argument(argv[1]);
+    if (argument.find(".em") == std::string::npos) {
+        std::cout << "Invalid usage. Please ensure the program file ends in the .em extension." << std::endl;
+        return false;
+    }
+
+    return true;
 }
 
 bool isint(std::string& string) {
