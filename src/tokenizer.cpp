@@ -23,8 +23,22 @@ void Tokenizer::tokenizeHelper(char& c, std::string& inS, std::string& tokenStri
 void Tokenizer::tokenizeAlphaHelper(std::string& tokenString) {
     if (tokenString == "return") {
         tokens.push_back({TokenType::_return, tokenString});
-    }   else { // NOTE: Is not a keyword (variables or strings)
-        // Not implemented yet
+    }   else if (tokenString == "(") {
+        tokens.push_back({TokenType::o_parenthesis, tokenString});
+    }   else if (tokenString == ")") {
+        tokens.push_back({TokenType::c_parenthesis, tokenString});
+    }   else if (tokenString == "{") {
+        tokens.push_back({TokenType::o_brace, tokenString});
+    }   else if (tokenString == "}") {
+        tokens.push_back({TokenType::c_brace, tokenString});
+    }   else if (tokenString == "+") {
+        tokens.push_back({TokenType::add, tokenString});
+    }   else if (tokenString == "-") {
+        tokens.push_back({TokenType::sub, tokenString});
+    }   else if (tokenString == "=") {
+        tokens.push_back({TokenType::eq, tokenString});
+    }   else { // NOTE: Is not a keyword, operator, or markers (punctuators/delimiters). Likely variables or strings
+        // Not implemented yet for vars and strings
         std::string error("Invalid token: ");
         error += tokenString;
 
@@ -54,7 +68,7 @@ void Tokenizer::tokenize() {
             std::string error("The character ");
             error += c;
             error += " is not currently accepted by the compiler.";
-            
+
             throw TokenException(error.c_str());
         }
     }
