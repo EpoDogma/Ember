@@ -6,7 +6,14 @@
 enum class TokenType {
     _return,
     semicolon,
-    int_l
+    int_l,
+    o_parenthesis,
+    c_parenthesis,
+    o_brace,
+    c_brace,
+    add,
+    sub,
+    eq
 };
 
 struct Token {
